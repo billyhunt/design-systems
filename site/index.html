@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design systems</title>
+<link rel="icon" href="lisa/assets/logos/lisa-favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="lisa/lisa.css">
+<style>
+  main { max-width: 880px; margin: 0 auto; padding: var(--space-7) var(--space-5); }
+  .grid { display: grid; gap: var(--space-5); grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: var(--space-6); }
+  .lisa-card h2 { margin-top: 0; }
+  .lisa-card p { margin: var(--space-3) 0 var(--space-5); }
+  a.lisa-btn { text-decoration: none; display: inline-flex; }
+</style>
+</head>
+<body class="lisa">
+<div class="lisa-slab" role="presentation"></div>
+<main>
+  <p class="lisa-label lisa-muted">Open source</p>
+  <h1 class="lisa-display">Design systems</h1>
+  <p>Each system has its own rules, tokens, stylesheet and specimen. Take one without the others.</p>
+  <div class="grid">
+    <div class="lisa-card">
+      <h2 class="lisa-h3">Lisa</h2>
+      <p>Neon fills under ink, 3px edges and pills. Day by paper, Dusk by midnight sky.</p>
+      <a class="lisa-btn" href="lisa/">Open the Lisa specimen</a>
+    </div>
+    <div class="lisa-card">
+      <h2 class="lisa-h3">Alethia</h2>
+      <p>Paper ground, hard black rules, one hot orange. The look of a markdown editor.</p>
+      <a class="lisa-btn" href="alethia/">Open the Alethia specimen</a>
+    </div>
+  </div>
+  <p class="lisa-label lisa-muted" style="margin-top: var(--space-7)">
+    <a href="https://github.com/billyhunt/design-systems">Source on GitHub</a> &middot; MIT
+  </p>
+</main>
+</body>
+</html>
