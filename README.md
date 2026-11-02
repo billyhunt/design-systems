@@ -53,9 +53,9 @@ Adapters carry a system into another tool and live in their own repositories:
 - **Alethia**: the values come from the app's own stylesheets in the
   [Alethia repository](https://github.com/billyhunt/alethia-markdown-editor).
   Where the guide and the app disagree, the app wins and the guide is wrong.
-  The history of the original
+  The original
   [alethia-style-guide](https://github.com/billyhunt/alethia-style-guide)
-  repository is kept in this one.
+  repository is archived; its history is kept in this one.
 
 ## Licenses
 
