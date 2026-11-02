@@ -2,7 +2,7 @@
 
 > Ink does the talking. The rainbow does the shouting.
 
-Live at [billyhunt.github.io/design-systems/lisa](https://billyhunt.github.io/design-systems/lisa/).
+Live at [billyhunt.com/design-systems/lisa](https://www.billyhunt.com/design-systems/lisa/).
 
 Lisa is a neon, 90s-school-supplies design system with two modes: **Day**
 (white paper, ink outlines, hard shadows) and **Dusk** (midnight sky, lavender

@@ -4,12 +4,12 @@ Open-source design systems by Billy Hunt, in one place. Each system is a
 folder under `systems/` with its own rules, tokens, stylesheet, specimen page
 and license, so you can take one without the others.
 
-Live specimens: <https://billyhunt.github.io/design-systems/>
+Live specimens: <https://www.billyhunt.com/design-systems/>
 
 | System | What it is | Specimen | License |
 |---|---|---|---|
-| [Lisa](systems/lisa/) | A neon, 90s-school-supplies system with two modes: Day (white paper, ink outlines, hard shadows) and Dusk (midnight sky, lavender outlines, glow). "Ink does the talking. The rainbow does the shouting." | [Lisa](https://billyhunt.github.io/design-systems/lisa/) | MIT |
-| [Alethia](systems/alethia/) | The visual language of Alethia, a markdown editor for macOS: paper ground, hard black rules, one hot orange. | [Alethia](https://billyhunt.github.io/design-systems/alethia/) | MIT |
+| [Lisa](systems/lisa/) | A neon, 90s-school-supplies system with two modes: Day (white paper, ink outlines, hard shadows) and Dusk (midnight sky, lavender outlines, glow). "Ink does the talking. The rainbow does the shouting." | [Lisa](https://www.billyhunt.com/design-systems/lisa/) | MIT |
+| [Alethia](systems/alethia/) | The visual language of Alethia, a markdown editor for macOS: paper ground, hard black rules, one hot orange. | [Alethia](https://www.billyhunt.com/design-systems/alethia/) | MIT |
 
 ## What each system contains
 
