@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lisa style guide</title>
+<meta name="description" content="Lisa: a neon, 90s-school-supplies design system with Day and Dusk modes, fat shapes, live tokens and a drop-in stylesheet.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='22' fill='%23FF2DA0' stroke='%2314001F' stroke-width='6'/%3E%3Cpath d='M50 14 C52 40 60 48 86 50 C60 52 52 60 50 86 C48 60 40 52 14 50 C40 48 48 40 50 14 Z' fill='%2314001F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&amp;family=Nunito:wght@400;700;900&amp;family=Space+Mono:wght@400;700&amp;display=swap">
+<style>
+/* lisa.css, inlined so this page works on its own. The separate lisa.css is the drop-in copy. */
+/*
+ * Lisa v0.1 — drop-in stylesheet.
+ *
+ * Neon fills under ink, 3px edges, shadows by day and glow by night.
+ * Tokens live on :root. Day is the default; Dusk applies when the OS is in
+ * dark mode (unless the page sets data-theme="day"), or whenever the root
+ * element has data-theme="dusk".
+ *
+ * Nothing here styles bare elements. Opt in with class="lisa" on a wrapper
+ * (usually <body>) and the .lisa-* component classes below.
+ *
+ * Fonts: load Bungee, Nunito (400/700/900) and Space Mono (400/700) yourself,
+ * e.g. from Google Fonts. See README.md.
+ */
+
+/* ------------------------------------------------------------------ tokens */
+
+:root {
+  /* colour · Day */
+  --bg: #FFFFFF;
+  --surface: #F6F1FF;
+  --text: #14001F;
+  --text-muted: #5B4A66;
+  --border: #14001F;
+  --accent-text: #B5006A;
+  --on-fill: #14001F;
+  --on-fill-6: #FFFFFF;
+  --ring: #8A2BFF;
+  --fill-1: #FF2DA0;
+  --fill-2: #FF8A00;
+  --fill-3: #FFE600;
+  --fill-4: #39E61A;
+  --fill-5: #00D4FF;
+  --fill-6: #8A2BFF;
+  --code-bg: #14001F;
+  --code-text: #FFE600;
+  --spectrum: linear-gradient(90deg, var(--fill-1), var(--fill-2), var(--fill-3), var(--fill-4), var(--fill-5), var(--fill-6));
+  --sky: var(--bg);
+
+  /* depth · Day: hard ink shadows */
+  --depth: 6px 6px 0 var(--border);
+  --depth-sm: 4px 4px 0 var(--border);
+  --depth-shape: drop-shadow(4px 4px 0 var(--border));
+
+  /* type */
+  --font-display: 'Bungee', 'Arial Black', Impact, sans-serif;
+  --font-body: 'Nunito', ui-rounded, 'SF Pro Rounded', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, Menlo, Consolas, monospace;
+  --text-label: 12px;
+  --text-sm: 15px;
+  --text-body: 17px;
+  --text-h3: 22px;
+  --text-h2: 30px;
+  --text-h1: 48px;
+  --text-display: 88px;
+  --leading: 1.6;
+
+  /* space · 4px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* shape + motion */
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-pill: 999px;
+  --rule: 3px;
+  --rule-heavy: 6px;
+  --slab: 16px;
+  --tilt: -6deg;
+  --press: 3px;
+  --dur: 120ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="day"]) {
+    --bg: #160B2B;
+    --surface: #24123F;
+    --text: #F6EEFF;
+    --text-muted: #B9A6D6;
+    --border: #B9A6D6;
+    --accent-text: #FF4FD8;
+    --on-fill: #160B2B;
+    --on-fill-6: #160B2B;
+    --ring: #F6EEFF;
+    --fill-1: #FF4FD8;
+    --fill-2: #FF9F45;
+    --fill-3: #FFE600;
+    --fill-4: #39E61A;
+    --fill-5: #3DE8FF;
+    --fill-6: #9B5CFF;
+    --code-bg: #0E061D;
+    --sky: radial-gradient(560px 280px at 85% 30%, rgb(255 79 216 / .45), transparent 70%), radial-gradient(460px 240px at 60% 100%, rgb(61 232 255 / .3), transparent 70%), var(--bg);
+    --depth: 0 0 28px rgb(255 79 216 / .55);
+    --depth-sm: 0 0 18px rgb(255 79 216 / .45);
+    --depth-shape: drop-shadow(0 0 12px rgb(255 79 216 / .55));
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dusk"] {
+  --bg: #160B2B;
+  --surface: #24123F;
+  --text: #F6EEFF;
+  --text-muted: #B9A6D6;
+  --border: #B9A6D6;
+  --accent-text: #FF4FD8;
+  --on-fill: #160B2B;
+  --on-fill-6: #160B2B;
+  --ring: #F6EEFF;
+  --fill-1: #FF4FD8;
+  --fill-2: #FF9F45;
+  --fill-3: #FFE600;
+  --fill-4: #39E61A;
+  --fill-5: #3DE8FF;
+  --fill-6: #9B5CFF;
+  --code-bg: #0E061D;
+  --sky: radial-gradient(560px 280px at 85% 30%, rgb(255 79 216 / .45), transparent 70%), radial-gradient(460px 240px at 60% 100%, rgb(61 232 255 / .3), transparent 70%), var(--bg);
+  --depth: 0 0 28px rgb(255 79 216 / .55);
+  --depth-sm: 0 0 18px rgb(255 79 216 / .45);
+  --depth-shape: drop-shadow(0 0 12px rgb(255 79 216 / .55));
+  color-scheme: dark;
+}
+
+/* -------------------------------------------------------------------- base */
+
+.lisa {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading);
+}
+.lisa a { color: var(--accent-text); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.lisa a:hover { color: var(--text); }
+.lisa :focus-visible { outline: var(--rule) solid var(--ring); outline-offset: 3px; }
+
+.lisa-display { font-family: var(--font-display); font-weight: 400; font-size: var(--text-display); line-height: .9; margin: 0; text-transform: uppercase; }
+.lisa-h1 { font-family: var(--font-display); font-weight: 400; font-size: var(--text-h1); line-height: 1.05; margin: 0; text-transform: uppercase; text-wrap: balance; }
+.lisa-h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--text-h2); line-height: 1.1; margin: 0; text-transform: uppercase; text-wrap: balance; }
+.lisa-h3 { font-weight: 900; font-size: var(--text-h3); line-height: 1.25; margin: 0; text-wrap: balance; }
+.lisa-label { font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: .08em; text-transform: uppercase; }
+.lisa-muted { color: var(--text-muted); }
+
+.lisa-slab { height: var(--slab); background: var(--spectrum); }
+.lisa-rule { border: 0; height: var(--rule); background: var(--border); margin: 0; }
+
+/* ------------------------------------------------------------- containers */
+
+.lisa-card {
+  background: var(--surface);
+  border: var(--rule) solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+}
+.lisa-card--lifted { box-shadow: var(--depth-sm); }
+
+/* Folder card: the house container. Tabs sit on the top edge. */
+.lisa-folder { display: flex; flex-direction: column; }
+.lisa-folder__tabs { display: flex; gap: var(--space-1); position: relative; z-index: 1; margin-bottom: calc(var(--rule) * -1); flex-wrap: wrap; }
+.lisa-folder__tab {
+  font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: .08em; text-transform: uppercase; font-weight: 700;
+  background: var(--bg); color: var(--text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius) var(--radius) 0 0;
+  padding: var(--space-2) var(--space-4); cursor: pointer;
+}
+.lisa-folder__tab[aria-selected="true"] { background: var(--fill-3); color: var(--on-fill); border-bottom-color: var(--fill-3); }
+.lisa-folder__body {
+  background: var(--surface);
+  border: var(--rule) solid var(--border);
+  border-radius: 0 var(--radius) var(--radius) var(--radius);
+  padding: var(--space-5);
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+/* Plain pill: dense UI, long or translated labels. */
+.lisa-btn {
+  font-family: var(--font-body); font-weight: 900; font-size: var(--text-body); line-height: 1.2;
+  background: var(--bg); color: var(--text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius-pill);
+  padding: var(--space-3) var(--space-5); min-height: 48px;
+  cursor: pointer; transition: transform var(--dur);
+}
+.lisa-btn--primary { background: var(--fill-1); color: var(--on-fill); box-shadow: var(--depth-sm); }
+.lisa-btn:hover { filter: brightness(1.06); }
+.lisa-btn:active { transform: translate(var(--press), var(--press)); box-shadow: none; }
+.lisa-btn:disabled, .lisa-btn[aria-disabled="true"] {
+  background: var(--surface); color: var(--text-muted);
+  border-style: dashed; border-color: var(--text-muted);
+  box-shadow: none; filter: none; transform: none; cursor: not-allowed;
+}
+
+/* Fat shapes as controls. The SVG draws the shape; the <span> is the label.
+   Put two <use> elements in the SVG: .ring (focus) then .fill. */
+.lisa-fat {
+  position: relative; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  border: 0; background: none; padding: 0; flex-shrink: 0;
+  font-family: var(--font-body); font-weight: 900; font-size: 19px; color: var(--on-fill);
+  cursor: pointer; transition: transform var(--dur);
+}
+.lisa-fat > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: var(--depth-shape); }
+.lisa-fat > span { position: relative; }
+.lisa-fat .ring { fill: none; stroke: transparent; stroke-width: 14px; stroke-linejoin: round; }
+.lisa-fat .fill { fill: var(--shape-fill, var(--fill-1)); stroke: var(--border); stroke-width: var(--rule); stroke-linejoin: round; }
+.lisa-fat:hover .fill { filter: brightness(1.07) saturate(1.1); }
+.lisa-fat:active { transform: translate(var(--press), var(--press)); }
+.lisa-fat:active > svg { filter: none; }
+.lisa .lisa-fat:focus-visible { outline: none; }
+.lisa-fat:focus-visible .ring { stroke: var(--ring); }
+
+/* Secondary and "off" states: paper fill, no depth. */
+.lisa-fat--secondary, .lisa-fat[aria-pressed="false"] { color: var(--text); }
+.lisa-fat--secondary .fill, .lisa-fat[aria-pressed="false"] .fill { fill: var(--bg); }
+.lisa-fat--secondary > svg, .lisa-fat[aria-pressed="false"] > svg { filter: none; }
+
+/* Sizes. Labels sit inside each shape's safe area. */
+.lisa-fat--cloud { width: 240px; height: 84px; }
+.lisa-fat--heart { width: 120px; height: 100px; font-size: 22px; }
+.lisa-fat--heart > span { margin-top: -10px; }
+.lisa-fat--star { width: 80px; height: 80px; --shape-fill: var(--fill-3); }
+.lisa-fat--tile { width: 200px; height: 170px; }
+.lisa-fat--tile[aria-pressed="true"] { transform: translate(-3px, -3px); }
+.lisa-fat--tile[aria-pressed="true"] .fill { stroke-width: 5px; }
+.lisa-fat--tile .lisa-fat__title { font-family: var(--font-display); font-weight: 400; font-size: 24px; }
+.lisa-fat--tile .lisa-fat__meta { font-size: var(--text-sm); font-weight: 700; }
+.lisa-fat--unicorn { width: 264px; height: 198px; }
+.lisa-fat--unicorn > span { position: absolute; left: 20.8%; top: 40%; width: 50%; height: 30%; display: flex; align-items: center; justify-content: center; }
+
+/* -------------------------------------------------------- chips, alerts */
+
+.lisa-chip {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: .08em; text-transform: uppercase; font-weight: 700;
+  background: var(--bg); color: var(--text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius-pill);
+  padding: var(--space-1) var(--space-3);
+}
+.lisa-chip--done { background: var(--fill-4); color: var(--on-fill); }
+.lisa-chip--draft { background: var(--fill-5); color: var(--on-fill); }
+.lisa-chip--late { background: var(--fill-2); color: var(--on-fill); }
+
+.lisa-alert {
+  border: var(--rule) solid var(--border); border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4); font-weight: 700; color: var(--on-fill);
+}
+.lisa-alert--notice { background: var(--fill-3); }
+.lisa-alert--error { background: var(--fill-1); }
+.lisa-alert--success { background: var(--fill-4); }
+
+/* Shapes used as decoration, badges and avatars. */
+.lisa-shape { fill: var(--shape-fill, var(--fill-1)); stroke: var(--border); stroke-width: var(--rule); stroke-linejoin: round; }
+.lisa-glyph { fill: var(--on-fill); font-family: var(--font-body); font-weight: 900; }
+.lisa-lift { filter: var(--depth-shape); }
+.lisa-tilt { transform: rotate(var(--tilt)); }
+
+/* ------------------------------------------------------------------ forms */
+
+.lisa-field { display: flex; flex-direction: column; gap: var(--space-2); }
+.lisa-field > label { font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+.lisa-input {
+  font: inherit; font-family: var(--font-body);
+  background: var(--bg); color: var(--text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3); min-height: 44px;
+}
+.lisa-check { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); }
+.lisa-check input { width: 22px; height: 22px; accent-color: var(--fill-1); }
+
+/* ------------------------------------------------------------------ prose */
+
+.lisa-prose > * + * { margin-top: var(--space-3); }
+.lisa-prose h1, .lisa-prose h2 { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; line-height: 1.1; }
+.lisa-prose h3 { font-weight: 900; font-size: var(--text-h3); }
+.lisa-prose ul, .lisa-prose ol { padding-left: var(--space-5); }
+.lisa-prose blockquote { margin: 0; border-left: var(--rule-heavy) solid var(--fill-1); background: var(--surface); padding: var(--space-2) var(--space-4); font-weight: 700; }
+.lisa-prose mark { background: var(--fill-3); color: var(--on-fill); padding: 0 var(--space-1); }
+.lisa-code, .lisa-prose pre {
+  background: var(--code-bg); color: var(--code-text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius);
+  padding: var(--space-5); font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+  overflow-x: auto; margin: 0;
+}
+
+/* ------------------------------------------------------- motion + print */
+
+@media (prefers-reduced-motion: reduce) {
+  .lisa-btn, .lisa-fat { transition: none; }
+}
+
+@media print {
+  :root, :root:not([data-theme="day"]), :root[data-theme="dusk"] {
+    --bg: #FFFFFF; --surface: #FFFFFF; --text: #14001F; --text-muted: #5B4A66; --border: #14001F;
+    --accent-text: #14001F; --on-fill: #14001F; --sky: #FFFFFF;
+    --depth: none; --depth-sm: none; --depth-shape: none;
+    color-scheme: light;
+  }
+  .lisa-slab { background: var(--border); height: var(--rule-heavy); }
+}
+</style>
+<script>
+  try { var t = localStorage.getItem('lisa-theme'); if (t === 'day' || t === 'dusk') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<style>
+  body { margin: 0; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .stack { display: flex; flex-direction: column; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; }
+  .grid { display: grid; gap: var(--space-4); }
+  .g-160 { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .g-220 { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .g-300 { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
+  .g-2 { grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); }
+  header.top { background: var(--sky); }
+  header.top .wrap { padding-block: var(--space-6) var(--space-6); display: flex; flex-direction: column; gap: var(--space-5); }
+  .bar { justify-content: space-between; gap: var(--space-4); }
+  .bar a { font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+  .switch { display: flex; border: var(--rule) solid var(--border); border-radius: var(--radius-pill); overflow: hidden; }
+  .switch button { font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; min-height: 44px; padding: 0 18px; border: 0; background: transparent; color: var(--text); cursor: pointer; }
+  .switch button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+  .hero { align-items: flex-end; gap: var(--space-6); }
+  .hero h1 { font-size: clamp(72px, 16vw, 168px); }
+  .lede { font-size: var(--text-h3); font-weight: 900; line-height: 1.35; max-width: 760px; margin: 0; text-wrap: balance; }
+  .intro { max-width: 68ch; margin: 0; color: var(--text-muted); }
+  nav.sections { gap: var(--space-2); }
+  nav.sections a { color: var(--text); text-decoration: none; border: var(--rule) solid var(--border); border-radius: var(--radius-pill); padding: var(--space-2) var(--space-4); background: var(--bg); }
+  nav.sections a:hover { background: var(--fill-3); color: var(--on-fill); }
+  main .wrap { padding-block: var(--space-6) var(--space-8); display: flex; flex-direction: column; gap: var(--space-8); }
+  section { display: flex; flex-direction: column; gap: var(--space-5); scroll-margin-top: var(--space-4); }
+  .sec-head { display: flex; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; border-top: var(--rule) solid var(--border); padding-top: var(--space-4); }
+  .sec-head p { margin: 0; font-size: var(--text-sm); color: var(--text-muted); }
+  .sub { font-weight: 700; margin-top: var(--space-3); }
+  .principle { display: flex; flex-direction: column; gap: var(--space-2); }
+  .principle p { margin: 0; font-size: var(--text-sm); color: var(--text-muted); }
+  .swatch { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+  .chip-color { height: 64px; border: var(--rule) solid var(--border); border-radius: var(--radius); }
+  .swatch .vals { color: var(--text-muted); line-height: 1.7; }
+  .swatch .role { font-size: var(--text-sm); line-height: 1.4; }
+  .table-box { overflow-x: auto; border: var(--rule) solid var(--border); border-radius: var(--radius); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
+  th { text-align: left; background: var(--surface); border-bottom: var(--rule) solid var(--border); padding: var(--space-3) var(--space-4); }
+  td { padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--text-muted); }
+  td:first-child { font-family: var(--font-mono); }
+  td.n { font-weight: 700; }
+  .family { display: flex; flex-direction: column; gap: var(--space-2); }
+  .family p { margin: 0; font-size: var(--text-sm); }
+  .scale-row { display: flex; align-items: baseline; gap: var(--space-5); padding: var(--space-3) 0; border-bottom: 1px solid var(--text-muted); flex-wrap: wrap; }
+  .scale-row > .lisa-label { width: 180px; flex-shrink: 0; color: var(--text-muted); }
+  .scale-row > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+  .space-row { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
+  .space-row > .lisa-label { width: 160px; flex-shrink: 0; }
+  .space-bar { height: 20px; background: var(--fill-5); border: var(--rule) solid var(--border); border-radius: 4px; }
+  .demo { display: flex; flex-direction: column; gap: var(--space-3); }
+  .demo-box { height: 80px; border: var(--rule) solid var(--border); border-radius: var(--radius); }
+  .decor { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); }
+  .fat-card { display: flex; flex-direction: column; gap: var(--space-3); }
+  .fat-card .stage { height: 180px; display: flex; align-items: center; justify-content: center; }
+  .fat-card .stage svg { overflow: visible; max-width: 100%; }
+  .fat-card .name { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
+  .fat-card .name strong { font-size: 20px; font-weight: 900; }
+  .fat-card p { margin: 0; font-size: var(--text-sm); color: var(--text-muted); }
+  .safe { fill: none; stroke: var(--on-fill); stroke-width: 1.5px; stroke-dasharray: 4 4; }
+  .unicorn-card { display: flex; gap: var(--space-6); align-items: center; flex-wrap: wrap; grid-column: 1 / -1; }
+  .unicorn-card > div { flex: 1 1 300px; display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+  .unicorn-card p { margin: 0; }
+  .comp-row { gap: var(--space-6); }
+  .inbox { position: relative; width: 200px; height: 70px; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+  .inbox > svg:first-child { position: absolute; inset: 0; overflow: visible; }
+  .inbox > span { position: relative; }
+  .inbox .badge { position: absolute; right: -14px; top: -22px; transform: rotate(10deg); overflow: visible; }
+  .sticker-card { position: relative; display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-4); flex-wrap: wrap; }
+  .sticker-card .corner { position: absolute; right: -16px; top: -28px; }
+  .avatar { position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 15px; color: var(--on-fill); }
+  .avatar svg { position: absolute; inset: 0; overflow: visible; }
+  .avatar span { position: relative; }
+  .tiles { display: flex; flex-wrap: wrap; gap: var(--space-5); }
+  .empty { display: flex; align-items: center; gap: var(--space-6); border: var(--rule) dashed var(--border); border-radius: var(--radius); padding: var(--space-6); flex-wrap: wrap; }
+  .empty > div { display: flex; flex-direction: column; gap: var(--space-3); align-items: flex-start; flex: 1 1 260px; }
+  .empty p { margin: 0; color: var(--text-muted); }
+  .note { font-size: var(--text-sm); color: var(--text-muted); margin: 0; }
+  .mark { gap: var(--space-7); align-items: center; }
+  .wordmark { display: flex; flex-direction: column; gap: var(--space-2); }
+  .wordmark span { font-family: var(--font-display); font-size: 96px; line-height: .9; }
+  .icons { display: flex; gap: var(--space-5); align-items: flex-end; }
+  .icon-tile { border: var(--rule) solid var(--border); background: var(--fill-3); display: flex; align-items: center; justify-content: center; }
+  .files td:first-child a { font-weight: 700; }
+  footer { border-top: var(--rule) solid var(--border); }
+  footer .wrap { padding-block: var(--space-5); display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; font-size: var(--text-sm); color: var(--text-muted); }
+  @media (max-width: 560px) {
+    .scale-row > .lisa-label, .space-row > .lisa-label { width: 100%; }
+    .wordmark span { font-size: 72px; }
+  }
+</style>
+</head>
+<body class="lisa">
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none" aria-hidden="true">
+  <symbol id="lisa-cloud" viewBox="0 0 240 84"><path vector-effect="non-scaling-stroke" d="M41 8 Q55.7 0.8 70.4 8 Q85.1 0.8 99.8 8 Q114.6 0.8 129.3 8 Q144 0.8 158.7 8 Q173.4 0.8 188.1 8 Q204.3 3.5 216.6 12.9 Q230.6 20.7 232.6 36.6 Q235.7 52.3 224.9 64 Q215 76.6 199 76 Q184.3 83.2 169.6 76 Q154.9 83.2 140.2 76 Q125.4 83.2 110.7 76 Q96 83.2 81.3 76 Q66.6 83.2 51.9 76 Q35.7 80.5 23.4 71.1 Q9.4 63.3 7.4 47.4 Q4.3 31.7 15.1 20 Q25 7.4 41 8 Z"/></symbol>
+  <symbol id="lisa-heart" viewBox="0 0 120 100"><path vector-effect="non-scaling-stroke" d="M60 92 Q56 92 50 87 C26 70 6 56 6 34 C6 17 19 6 35 6 C46 6 55 12 60 21 C65 12 74 6 85 6 C101 6 114 17 114 34 C114 56 94 70 70 87 Q64 92 60 92 Z"/></symbol>
+  <symbol id="lisa-star" viewBox="0 0 100 100"><path vector-effect="non-scaling-stroke" d="M44.2 10.3 Q50 3 55.8 10.3 L62.4 18.6 Q68.2 25.9 77 29.2 L86.9 32.9 Q95.7 36.2 90.5 44 L84.7 52.8 Q79.5 60.6 79.1 69.9 L78.6 80.5 Q78.2 89.8 69.2 87.3 L59 84.5 Q50 82 41 84.5 L30.8 87.3 Q21.8 89.8 21.4 80.5 L20.9 69.9 Q20.5 60.6 15.3 52.8 L9.5 44 Q4.3 36.2 13.1 32.9 L23 29.2 Q31.8 25.9 37.6 18.6 Z"/></symbol>
+  <symbol id="lisa-burst" viewBox="0 0 100 100"><path vector-effect="non-scaling-stroke" d="M46.9 4.5 Q50 1 53.1 4.5 L55.8 7.5 Q58.9 11 63.2 9.2 L66.9 7.7 Q71.3 5.9 72.5 10.4 L73.7 14.2 Q74.9 18.7 79.6 19 L83.6 19.2 Q88.3 19.4 87.5 24.1 L86.8 28 Q86 32.6 90.1 34.9 L93.7 36.8 Q97.8 39.1 95.1 42.9 L92.7 46.2 Q90 50 92.7 53.8 L95.1 57.1 Q97.8 60.9 93.7 63.2 L90.1 65.1 Q86 67.4 86.8 72 L87.5 75.9 Q88.3 80.6 83.6 80.8 L79.6 81 Q74.9 81.3 73.7 85.8 L72.5 89.6 Q71.3 94.1 66.9 92.3 L63.2 90.8 Q58.9 89 55.8 92.5 L53.1 95.5 Q50 99 46.9 95.5 L44.2 92.5 Q41.1 89 36.8 90.8 L33.1 92.3 Q28.7 94.1 27.5 89.6 L26.3 85.8 Q25.1 81.3 20.4 81 L16.4 80.8 Q11.7 80.6 12.5 75.9 L13.2 72 Q14 67.4 9.9 65.1 L6.3 63.2 Q2.2 60.9 4.9 57.1 L7.3 53.8 Q10 50 7.3 46.2 L4.9 42.9 Q2.2 39.1 6.3 36.8 L9.9 34.9 Q14 32.6 13.2 28 L12.5 24.1 Q11.7 19.4 16.4 19.2 L20.4 19 Q25.1 18.7 26.3 14.2 L27.5 10.4 Q28.7 5.9 33.1 7.7 L36.8 9.2 Q41.1 11 44.2 7.5 Z"/></symbol>
+  <symbol id="lisa-sparkle" viewBox="0 0 100 100"><path vector-effect="non-scaling-stroke" d="M99 50 L98.6 53.2 L97.4 56.2 L95.5 59 L93 61.5 L90.1 63.6 L87 65.3 L83.8 66.7 L80.7 67.8 L78 68.7 L75.6 69.6 L73.5 70.6 L71.9 71.9 L70.6 73.5 L69.6 75.6 L68.7 78 L67.8 80.7 L66.7 83.8 L65.3 87 L63.6 90.1 L61.5 93 L59 95.5 L56.2 97.4 L53.2 98.6 L50 99 L46.8 98.6 L43.8 97.4 L41 95.5 L38.5 93 L36.4 90.1 L34.7 87 L33.3 83.8 L32.2 80.7 L31.3 78 L30.4 75.6 L29.4 73.5 L28.1 71.9 L26.5 70.6 L24.4 69.6 L22 68.7 L19.3 67.8 L16.2 66.7 L13 65.3 L9.9 63.6 L7 61.5 L4.5 59 L2.6 56.2 L1.4 53.2 L1 50 L1.4 46.8 L2.6 43.8 L4.5 41 L7 38.5 L9.9 36.4 L13 34.7 L16.2 33.3 L19.3 32.3 L22 31.3 L24.4 30.4 L26.5 29.4 L28.1 28.1 L29.4 26.5 L30.4 24.4 L31.3 22 L32.2 19.3 L33.3 16.2 L34.7 13 L36.4 9.9 L38.5 7 L41 4.5 L43.8 2.6 L46.8 1.4 L50 1 L53.2 1.4 L56.2 2.6 L59 4.5 L61.5 7 L63.6 9.9 L65.3 13 L66.7 16.2 L67.8 19.3 L68.7 22 L69.6 24.4 L70.6 26.5 L71.9 28.1 L73.5 29.4 L75.6 30.4 L78 31.3 L80.7 32.2 L83.8 33.3 L87 34.7 L90.1 36.4 L93 38.5 L95.5 41 L97.4 43.8 L98.6 46.8 Z"/></symbol>
+  <symbol id="lisa-tile" viewBox="0 0 200 170"><path vector-effect="non-scaling-stroke" d="M38 8 Q53.6 1.2 69.2 8 Q84.8 1.2 100.4 8 Q116.1 1.2 131.7 8 Q147.4 1.2 162.9 8 Q179.2 10 188.3 23.6 Q196.8 37.2 192 54.2 Q198.8 69.8 192 85.4 Q198.8 101.1 192 116.7 Q196.5 133.7 187.9 147.2 Q178.3 160.5 162 162 Q146.4 168.8 130.8 162 Q115.2 168.8 99.6 162 Q83.9 168.8 68.3 162 Q52.6 168.8 37.1 162 Q20.8 160 11.7 146.4 Q3.2 132.8 8 115.8 Q1.2 100.2 8 84.6 Q1.2 68.9 8 53.3 Q3.5 36.3 12.1 22.8 Q21.7 9.5 38 8 Z"/></symbol>
+  <symbol id="lisa-unicorn" viewBox="0 0 240 180"><path vector-effect="non-scaling-stroke" d="M226.2 3.4 L224.1 4.2 L200.4 24.8 L189.5 26.2 L187.6 26.1 L186.1 25.2 L171.4 7.8 L170.4 7.8 L169.9 10.9 L168.6 12.5 L162.6 14.2 L158.4 17.4 L153.9 26.0 L147.4 30.4 L144.8 33.6 L142.5 41.5 L141.5 43.1 L136.4 47.4 L132.9 52.0 L130.6 53.1 L117.8 52.1 L105.5 52.0 L86.9 53.9 L68.2 58.9 L51.1 66.8 L48.8 66.5 L43.1 62.5 L36.8 60.2 L30.5 60.4 L24.9 62.5 L22.1 64.5 L18.5 68.9 L16.6 73.4 L15.6 80.5 L14.4 82.6 L9.4 88.0 L7.4 93.1 L7.2 98.0 L8.0 101.2 L14.4 110.8 L14.2 117.1 L15.6 121.5 L18.9 125.0 L24.2 126.9 L28.6 126.2 L35.0 121.9 L37.8 121.8 L49.0 131.2 L50.1 133.5 L50.1 153.2 L51.0 157.6 L53.0 161.4 L55.2 163.9 L61.1 167.2 L64.9 168.0 L69.5 167.6 L74.0 165.9 L76.8 163.9 L80.6 158.5 L81.9 154.4 L82.2 148.2 L84.5 146.1 L102.0 148.0 L112.8 148.2 L125.8 147.2 L139.5 144.8 L142.0 145.0 L143.5 146.2 L144.1 147.9 L144.1 153.2 L145.0 157.6 L147.0 161.4 L150.6 165.0 L154.4 167.0 L158.9 168.0 L163.5 167.6 L168.0 165.9 L173.0 161.4 L175.4 156.5 L176.1 152.2 L176.1 128.1 L177.0 126.4 L184.0 118.4 L188.2 110.2 L190.1 101.5 L189.8 90.0 L195.0 76.6 L197.4 74.6 L200.2 74.5 L209.1 81.1 L213.6 82.6 L219.1 83.1 L225.4 81.8 L229.6 79.5 L233.1 76.1 L235.2 72.2 L236.0 66.9 L234.6 62.2 L230.8 57.4 L224.1 52.8 L223.5 51.2 L223.2 43.5 L222.2 39.8 L219.6 34.9 L215.2 30.2 L214.8 29.0 L215.0 26.4 L226.1 4.8 Z"/></symbol>
+  <symbol id="lisa-d-star" viewBox="0 0 100 100"><path vector-effect="non-scaling-stroke" d="M50 4 L62 36 L96 38 L69 59 L79 93 L50 73 L21 93 L31 59 L4 38 L38 36 Z"/></symbol>
+  <symbol id="lisa-d-heart" viewBox="0 0 100 100"><path vector-effect="non-scaling-stroke" d="M50 90 C20 68 4 50 4 31 C4 17 15 7 28 7 C38 7 46 13 50 21 C54 13 62 7 72 7 C85 7 96 17 96 31 C96 50 80 68 50 90 Z"/></symbol>
+  <symbol id="lisa-d-sparkle" viewBox="0 0 100 100"><path vector-effect="non-scaling-stroke" d="M50 4 C53 36 64 47 96 50 C64 53 53 64 50 96 C47 64 36 53 4 50 C36 47 47 36 50 4 Z"/></symbol>
+  <symbol id="lisa-d-bolt" viewBox="0 0 100 100"><path vector-effect="non-scaling-stroke" d="M60 4 L18 58 L46 58 L36 96 L84 38 L56 38 Z"/></symbol>
+  <symbol id="lisa-d-burst" viewBox="0 0 100 100"><path vector-effect="non-scaling-stroke" d="M50 2 L60 22 L82 14 L78 37 L98 50 L78 63 L82 86 L60 78 L50 98 L40 78 L18 86 L22 63 L2 50 L22 37 L18 14 L40 22 Z"/></symbol>
+</svg>
+
+<div class="lisa-slab" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="row bar">
+      <a href="https://www.billyhunt.com/">billyhunt.com</a>
+      <div class="switch" role="group" aria-label="Colour mode">
+        <button type="button" data-mode="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-mode="day" aria-pressed="false">Day</button>
+        <button type="button" data-mode="dusk" aria-pressed="false">Dusk</button>
+      </div>
+    </div>
+    <div class="row hero">
+      <h1 class="lisa-display">Lisa</h1>
+      <svg role="img" aria-label="Version 0.1" width="120" height="120" viewBox="0 0 100 100" class="lisa-lift lisa-tilt" style="margin-bottom: var(--space-3)"><use href="#lisa-d-burst" class="lisa-shape" style="--shape-fill: var(--fill-3)"/><text x="50" y="57" text-anchor="middle" font-size="18" class="lisa-glyph" style="font-family: var(--font-display); font-weight: 400">v0.1</text></svg>
+    </div>
+    <p class="lede">Ink does the talking. The rainbow does the shouting. Shadows by day, glow by night.</p>
+    <p class="intro">Lisa is a neon, 90s-school-supplies design system with two modes, Day and Dusk. Every value on this page comes from one set of tokens, the same ones in <a href="lisa.css">lisa.css</a>. Flip the mode switch and only the tokens change. The <a href="README.md">rulebook</a> explains why; <a href="tokens.json">tokens.json</a> has the same values for design tools.</p>
+    <nav class="row sections lisa-label" aria-label="Sections">
+      <a href="#principles">Principles</a><a href="#colour">Colour</a><a href="#type">Type</a><a href="#space">Space</a><a href="#shape">Shape</a><a href="#shapes">Shapes</a><a href="#components">Components</a><a href="#prose">Prose</a><a href="#use">Use it</a><a href="#mark">Mark</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<section id="principles">
+  <div class="sec-head"><h2 class="lisa-h2">Principles</h2><p>Six rules. When in doubt, these win.</p></div>
+  <div class="grid g-300">
+    <div class="lisa-card principle"><span class="lisa-label">1</span><h3 class="lisa-h3">Neon is a fill.</h3><p>By Day it never carries text. By Dusk it may, because every fill passes 4.5:1 on Midnight.</p></div>
+    <div class="lisa-card principle"><span class="lisa-label">2</span><h3 class="lisa-h3">Ink does the talking.</h3><p>One text colour, one muted, one accent for links. That is all the coloured text there is.</p></div>
+    <div class="lisa-card principle"><span class="lisa-label">3</span><h3 class="lisa-h3">Every edge is 3px.</h3><p>Borders, rules, outlines and shapes. It keeps the neon from melting together, and it keeps working when colour drops out.</p></div>
+    <div class="lisa-card principle"><span class="lisa-label">4</span><h3 class="lisa-h3">Shadows by day, glow by night.</h3><p>Depth is the one token that changes shape between modes. Everything else only swaps colour.</p></div>
+    <div class="lisa-card principle"><span class="lisa-label">5</span><h3 class="lisa-h3">Tilt one thing per view.</h3><p>A sticker, a badge, a burst. Two tilted things and the page looks dropped.</p></div>
+    <div class="lisa-card principle"><span class="lisa-label">6</span><h3 class="lisa-h3">One job per shape.</h3><p>Two buttons, two toggles, a badge, an avatar, a tile and one unicorn. Shapes never swap jobs.</p></div>
+  </div>
+</section>
+
+<section id="colour">
+  <div class="sec-head"><h2 class="lisa-h2">Colour</h2><p>Seventeen tokens. Same names in both modes; the values swap.</p></div>
+  <div class="grid g-220">
+    <div class="swatch"><div class="chip-color" style="background: var(--bg)"></div><span class="lisa-label">--bg</span><span class="role">Page ground</span><span class="lisa-label vals">Day Paper #FFFFFF<br>Dusk Midnight #160B2B</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--surface)"></div><span class="lisa-label">--surface</span><span class="role">Cards, wells, table heads</span><span class="lisa-label vals">Day Lilac #F6F1FF<br>Dusk Dusk #24123F</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--text)"></div><span class="lisa-label">--text</span><span class="role">Body text</span><span class="lisa-label vals">Day Ink #14001F<br>Dusk Starlight #F6EEFF</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--text-muted)"></div><span class="lisa-label">--text-muted</span><span class="role">Secondary text, metadata</span><span class="lisa-label vals">Day Smudge #5B4A66<br>Dusk Moonlight #B9A6D6</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--border)"></div><span class="lisa-label">--border</span><span class="role">Every edge, 3px</span><span class="lisa-label vals">Day Ink #14001F<br>Dusk Moonlight #B9A6D6</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--accent-text)"></div><span class="lisa-label">--accent-text</span><span class="role">Links. The only coloured text.</span><span class="lisa-label vals">Day Berry #B5006A<br>Dusk Flamingo #FF4FD8</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--on-fill)"></div><span class="lisa-label">--on-fill</span><span class="role">Text on any fill</span><span class="lisa-label vals">Day Ink #14001F<br>Dusk Midnight #160B2B</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--ring)"></div><span class="lisa-label">--ring</span><span class="role">Focus ring</span><span class="lisa-label vals">Day Violet #8A2BFF<br>Dusk Starlight #F6EEFF</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--fill-1)"></div><span class="lisa-label">--fill-1</span><span class="role">Primary action, errors, hearts</span><span class="lisa-label vals">Day Magenta #FF2DA0<br>Dusk Flamingo #FF4FD8</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--fill-2)"></div><span class="lisa-label">--fill-2</span><span class="role">Badges, warnings</span><span class="lisa-label vals">Day Tangerine #FF8A00<br>Dusk Sunset #FF9F45</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--fill-3)"></div><span class="lisa-label">--fill-3</span><span class="role">Notices, highlights, stars</span><span class="lisa-label vals">Day Lemon #FFE600<br>Dusk Lemon #FFE600</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--fill-4)"></div><span class="lisa-label">--fill-4</span><span class="role">Success</span><span class="lisa-label vals">Day Lime #39E61A<br>Dusk Lime #39E61A</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--fill-5)"></div><span class="lisa-label">--fill-5</span><span class="role">Selection, info</span><span class="lisa-label vals">Day Cyan #00D4FF<br>Dusk Lagoon #3DE8FF</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--fill-6)"></div><span class="lisa-label">--fill-6</span><span class="role">Decoration only</span><span class="lisa-label vals">Day Violet #8A2BFF<br>Dusk Ultraviolet #9B5CFF</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--code-bg)"></div><span class="lisa-label">--code-bg</span><span class="role">Code wells</span><span class="lisa-label vals">Day Ink #14001F<br>Dusk Void #0E061D</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--code-text)"></div><span class="lisa-label">--code-text</span><span class="role">Code text</span><span class="lisa-label vals">Day Lemon #FFE600<br>Dusk Lemon #FFE600</span></div>
+    <div class="swatch"><div class="chip-color" style="background: var(--spectrum)"></div><span class="lisa-label">--spectrum</span><span class="role">Slabs and focus frames. Top and bottom only.</span><span class="lisa-label vals">fill-1 → fill-6</span></div>
+  </div>
+  <div class="grid g-300">
+    <div class="lisa-card" style="background: var(--bg)"><span class="lisa-label" style="font-weight: 700">Do · fill under ink</span><p class="lisa-h3" style="margin-top: var(--space-2)"><span style="background: var(--fill-1); color: var(--on-fill); padding: 2px var(--space-2); border-radius: 6px">Due Friday</span> reads at a glance.</p></div>
+    <div class="lisa-card" style="background: var(--bg); border-style: dashed; border-color: var(--text-muted)"><span class="lisa-label lisa-muted" style="font-weight: 700">Don't · neon text by Day</span><p class="note" style="margin-top: var(--space-2)">Lime on paper is 1.6:1. By Dusk, neon text is allowed: every fill passes 4.5:1 on Midnight.</p></div>
+  </div>
+  <span class="lisa-label sub">Contrast · WCAG 2 · AA is 4.5:1, AAA is 7:1</span>
+  <div class="table-box">
+    <table>
+      <thead><tr><th scope="col" class="lisa-label">Pair</th><th scope="col" class="lisa-label">Where</th><th scope="col" class="lisa-label">Day</th><th scope="col" class="lisa-label">Dusk</th></tr></thead>
+      <tbody>
+        <tr><td>--text / --bg</td><td>Body</td><td class="n">20.0 AAA</td><td class="n">16.7 AAA</td></tr>
+        <tr><td>--text / --surface</td><td>Cards</td><td class="n">18.1 AAA</td><td class="n">15.1 AAA</td></tr>
+        <tr><td>--text-muted / --bg</td><td>Secondary text</td><td class="n">8.0 AAA</td><td class="n">8.5 AAA</td></tr>
+        <tr><td>--text-muted / --surface</td><td>Secondary on cards</td><td class="n">7.2 AAA</td><td class="n">7.7 AAA</td></tr>
+        <tr><td>--accent-text / --bg</td><td>Links</td><td class="n">6.6 AA</td><td class="n">6.6 AA</td></tr>
+        <tr><td>--on-fill / --fill-1</td><td>Primary buttons, errors</td><td class="n">5.9 AA</td><td class="n">6.6 AA</td></tr>
+        <tr><td>--on-fill / --fill-2</td><td>Badges, warnings</td><td class="n">8.5 AAA</td><td class="n">9.2 AAA</td></tr>
+        <tr><td>--on-fill / --fill-3</td><td>Notices</td><td class="n">15.8 AAA</td><td class="n">14.8 AAA</td></tr>
+        <tr><td>--on-fill / --fill-4</td><td>Success</td><td class="n">11.9 AAA</td><td class="n">11.2 AAA</td></tr>
+        <tr><td>--on-fill / --fill-5</td><td>Selection</td><td class="n">11.3 AAA</td><td class="n">12.7 AAA</td></tr>
+        <tr><td>--on-fill-6 / --fill-6</td><td>Violet (avoid text)</td><td class="n">5.4 AA</td><td class="n">4.8 AA</td></tr>
+        <tr><td>--code-text / --code-bg</td><td>Code</td><td class="n">15.8 AAA</td><td class="n">15.6 AAA</td></tr>
+        <tr><td>--ring / --bg</td><td>Focus (needs 3:1)</td><td class="n">5.4 pass</td><td class="n">16.7 pass</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">--fill-6 by Day is the one exception: ink on violet is 3.7:1, so violet takes white text (--on-fill-6). Keep words off it.</p>
+</section>
+
+<section id="type">
+  <div class="sec-head"><h2 class="lisa-h2">Type</h2><p>Three families, seven sizes. Display is always capitals.</p></div>
+  <div class="grid g-300">
+    <div class="lisa-card family" style="background: var(--bg)"><span style="font-family: var(--font-display); font-size: 34px; line-height: 1.1">Bungee</span><span class="lisa-label lisa-muted">--font-display · 400</span><p>Headings and short shouts. Capitals, tight leading, 24px and up.</p></div>
+    <div class="lisa-card family" style="background: var(--bg)"><span style="font-size: 34px; font-weight: 900; line-height: 1.1">Nunito</span><span class="lisa-label lisa-muted">--font-body · 400 / 700 / 900</span><p>Body and UI. Rounded terminals keep the loud parts friendly.</p></div>
+    <div class="lisa-card family" style="background: var(--bg)"><span style="font-family: var(--font-mono); font-size: 28px; line-height: 1.1">Space Mono</span><span class="lisa-label lisa-muted">--font-mono · 400 / 700</span><p>Labels, tokens, metadata and code. 12px capitals, +0.08em.</p></div>
+  </div>
+  <div class="stack" style="border-top: var(--rule) solid var(--border)">
+    <div class="scale-row"><span class="lisa-label">--text-display · 88</span><span class="lisa-display">Lisa</span></div>
+    <div class="scale-row"><span class="lisa-label">--text-h1 · 48</span><span class="lisa-h1">Heading one</span></div>
+    <div class="scale-row"><span class="lisa-label">--text-h2 · 30</span><span class="lisa-h2">Heading two</span></div>
+    <div class="scale-row"><span class="lisa-label">--text-h3 · 22</span><span class="lisa-h3">Heading three, Nunito 900</span></div>
+    <div class="scale-row"><span class="lisa-label">--text-body · 17</span><span>Body copy at 17 on 1.6. Rounded, friendly, readable all day.</span></div>
+    <div class="scale-row"><span class="lisa-label">--text-sm · 15</span><span style="font-size: var(--text-sm)">Small text for captions and helper lines.</span></div>
+    <div class="scale-row"><span class="lisa-label">--text-label · 12</span><span class="lisa-label">Label · mono caps</span></div>
+  </div>
+</section>
+
+<section id="space">
+  <div class="sec-head"><h2 class="lisa-h2">Space</h2><p>Eight steps on a 4px base. Nothing in between.</p></div>
+  <div class="stack" style="gap: var(--space-3)">
+    <div class="space-row"><span class="lisa-label">--space-1 · 4px</span><div class="space-bar" style="width: calc(var(--space-1) * 4)"></div><span class="note">Icon to label</span></div>
+    <div class="space-row"><span class="lisa-label">--space-2 · 8px</span><div class="space-bar" style="width: calc(var(--space-2) * 4)"></div><span class="note">Chip padding, tight gaps</span></div>
+    <div class="space-row"><span class="lisa-label">--space-3 · 12px</span><div class="space-bar" style="width: calc(var(--space-3) * 4)"></div><span class="note">Button padding, top and bottom</span></div>
+    <div class="space-row"><span class="lisa-label">--space-4 · 16px</span><div class="space-bar" style="width: calc(var(--space-4) * 4)"></div><span class="note">Card padding, list gaps</span></div>
+    <div class="space-row"><span class="lisa-label">--space-5 · 24px</span><div class="space-bar" style="width: calc(var(--space-5) * 4)"></div><span class="note">Button padding at the sides, grid gaps</span></div>
+    <div class="space-row"><span class="lisa-label">--space-6 · 32px</span><div class="space-bar" style="width: calc(var(--space-6) * 4)"></div><span class="note">Between groups</span></div>
+    <div class="space-row"><span class="lisa-label">--space-7 · 48px</span><div class="space-bar" style="width: calc(var(--space-7) * 4)"></div><span class="note">Header padding</span></div>
+    <div class="space-row"><span class="lisa-label">--space-8 · 64px</span><div class="space-bar" style="width: min(calc(var(--space-8) * 4), 100%)"></div><span class="note">Between sections</span></div>
+  </div>
+</section>
+
+<section id="shape">
+  <div class="sec-head"><h2 class="lisa-h2">Shape &amp; depth</h2><p>Round corners, hard edges. Depth is the only thing that changes with mode.</p></div>
+  <div class="grid g-220">
+    <div class="demo"><div class="demo-box"></div><span class="lisa-label">--radius 14 · -sm 10 · -pill 999</span></div>
+    <div class="demo"><div class="stack" style="height: 80px; justify-content: center; gap: var(--space-3)"><div style="height: var(--rule); background: var(--border)"></div><div style="height: var(--rule-heavy); background: var(--border)"></div><div class="lisa-slab" style="border-radius: 4px"></div></div><span class="lisa-label">--rule 3 · -heavy 6 · --slab 16</span></div>
+    <div class="demo"><div class="demo-box" style="height: 74px; background: var(--fill-3); box-shadow: var(--depth)"></div><span class="lisa-label">--depth · ink by Day, glow by Dusk</span></div>
+    <div class="demo"><div class="demo-box" style="height: 74px; background: var(--fill-1); transform: rotate(var(--tilt))"></div><span class="lisa-label">--tilt −6° · one per view</span></div>
+  </div>
+</section>
+
+<section id="shapes">
+  <div class="sec-head"><h2 class="lisa-h2">Shapes</h2><p>Two kinds: decoration, and fat shapes that do a job.</p></div>
+  <span class="lisa-label sub">Decoration · headers, margins, empty states. Never in data, never as action icons.</span>
+  <div class="grid g-160" style="align-items: end">
+    <div class="decor"><svg role="img" aria-label="Star" width="96" height="96" viewBox="0 0 100 100" class="lisa-lift" style="transform: rotate(-6deg)"><use href="#lisa-d-star" class="lisa-shape" style="--shape-fill: var(--fill-3)"/></svg><span class="lisa-label">Star</span></div>
+    <div class="decor"><svg role="img" aria-label="Heart" width="96" height="96" viewBox="0 0 100 100" class="lisa-lift"><use href="#lisa-d-heart" class="lisa-shape" style="--shape-fill: var(--fill-1)"/></svg><span class="lisa-label">Heart</span></div>
+    <div class="decor"><svg role="img" aria-label="Sparkle" width="96" height="96" viewBox="0 0 100 100" class="lisa-lift"><use href="#lisa-d-sparkle" class="lisa-shape" style="--shape-fill: var(--fill-5)"/></svg><span class="lisa-label">Sparkle</span></div>
+    <div class="decor"><svg role="img" aria-label="Bolt" width="96" height="96" viewBox="0 0 100 100" class="lisa-lift" style="transform: rotate(8deg)"><use href="#lisa-d-bolt" class="lisa-shape" style="--shape-fill: var(--fill-2)"/></svg><span class="lisa-label">Bolt</span></div>
+    <div class="decor"><svg role="img" aria-label="Burst" width="96" height="96" viewBox="0 0 100 100" class="lisa-lift"><use href="#lisa-d-burst" class="lisa-shape" style="--shape-fill: var(--fill-4)"/></svg><span class="lisa-label">Burst</span></div>
+    <div class="decor"><svg role="img" aria-label="Rainbow" width="110" height="96" viewBox="0 0 120 100" class="lisa-lift"><path d="M10 90 A50 50 0 0 1 110 90" fill="none" style="stroke: var(--border)" stroke-width="17"/><path d="M10 90 A50 50 0 0 1 110 90" fill="none" style="stroke: var(--fill-1)" stroke-width="11"/><path d="M22 90 A38 38 0 0 1 98 90" fill="none" style="stroke: var(--bg)" stroke-width="15"/><path d="M22 90 A38 38 0 0 1 98 90" fill="none" style="stroke: var(--fill-3)" stroke-width="10"/><path d="M34 90 A26 26 0 0 1 86 90" fill="none" style="stroke: var(--bg)" stroke-width="15"/><path d="M34 90 A26 26 0 0 1 86 90" fill="none" style="stroke: var(--fill-5)" stroke-width="10"/></svg><span class="lisa-label">Rainbow</span></div>
+    <div class="decor"><svg role="img" aria-label="Squiggle" width="110" height="96" viewBox="0 0 120 100" class="lisa-lift"><path d="M8 60 C24 20 40 90 60 50 S 96 10 112 50" fill="none" style="stroke: var(--border)" stroke-width="14" stroke-linecap="round"/><path d="M8 60 C24 20 40 90 60 50 S 96 10 112 50" fill="none" style="stroke: var(--fill-4)" stroke-width="8" stroke-linecap="round"/></svg><span class="lisa-label">Squiggle</span></div>
+  </div>
+
+  <span class="lisa-label sub">Fat shapes · one job each. The dashed box is the safe area: text lives inside it.</span>
+  <div class="grid g-300">
+    <div class="lisa-card fat-card"><div class="stage"><svg role="img" aria-label="Cloud pill" width="240" height="84" viewBox="0 0 240 84" class="lisa-lift"><use href="#lisa-cloud" width="240" height="84" class="lisa-shape" style="--shape-fill: var(--fill-1)"/><rect x="36" y="20" width="168" height="44" class="safe" vector-effect="non-scaling-stroke"/></svg></div><div class="name"><strong>Cloud pill</strong><span class="lisa-label lisa-muted">Button · ≤ 16 chars</span></div><p>Most text buttons. Min height 48. Dense UI and long labels use the plain pill.</p></div>
+    <div class="lisa-card fat-card"><div class="stage"><svg role="img" aria-label="Fat heart" width="156" height="130" viewBox="0 0 120 100" class="lisa-lift"><use href="#lisa-heart" width="120" height="100" class="lisa-shape" style="--shape-fill: var(--fill-1)"/><rect x="30" y="26" width="60" height="32" class="safe" vector-effect="non-scaling-stroke"/></svg></div><div class="name"><strong>Fat heart</strong><span class="lisa-label lisa-muted">Toggle · count ≤ 4</span></div><p>Like, with its count inside. Min 64 wide.</p></div>
+    <div class="lisa-card fat-card"><div class="stage"><svg role="img" aria-label="Chubby star" width="130" height="130" viewBox="0 0 100 100" class="lisa-lift"><use href="#lisa-star" width="100" height="100" class="lisa-shape" style="--shape-fill: var(--fill-3)"/><rect x="31" y="36" width="38" height="32" class="safe" vector-effect="non-scaling-stroke"/></svg></div><div class="name"><strong>Chubby star</strong><span class="lisa-label lisa-muted">Toggle · icon only</span></div><p>Favorite. Min 56. The smallest safe area in the set.</p></div>
+    <div class="lisa-card fat-card"><div class="stage"><svg role="img" aria-label="Soft burst" width="130" height="130" viewBox="0 0 100 100" class="lisa-lift"><use href="#lisa-burst" width="100" height="100" class="lisa-shape" style="--shape-fill: var(--fill-2)"/><rect x="22" y="22" width="56" height="56" class="safe" vector-effect="non-scaling-stroke"/></svg></div><div class="name"><strong>Soft burst</strong><span class="lisa-label lisa-muted">Badge · ≤ 4 chars</span></div><p>Counters, NEW, stamps. Never clickable; it rides on something that is.</p></div>
+    <div class="lisa-card fat-card"><div class="stage"><svg role="img" aria-label="Puffy sparkle" width="130" height="130" viewBox="0 0 100 100" class="lisa-lift"><use href="#lisa-sparkle" width="100" height="100" class="lisa-shape" style="--shape-fill: var(--fill-5)"/><rect x="28" y="28" width="44" height="44" class="safe" vector-effect="non-scaling-stroke"/></svg></div><div class="name"><strong>Puffy sparkle</strong><span class="lisa-label lisa-muted">Avatar · 2 initials</span></div><p>People. Min 48.</p></div>
+    <div class="lisa-card fat-card"><div class="stage"><svg role="img" aria-label="Puffy tile" width="200" height="170" viewBox="0 0 200 170" class="lisa-lift"><use href="#lisa-tile" width="200" height="170" class="lisa-shape" style="--shape-fill: var(--fill-4)"/><rect x="30" y="30" width="140" height="110" class="safe" vector-effect="non-scaling-stroke"/></svg></div><div class="name"><strong>Puffy tile</strong><span class="lisa-label lisa-muted">Pick one · title + 1 line</span></div><p>Category pickers and launchers.</p></div>
+    <div class="lisa-card unicorn-card"><svg role="img" aria-label="Fat unicorn" width="264" height="198" viewBox="0 0 240 180" class="lisa-lift" style="overflow: visible; max-width: 100%"><use href="#lisa-unicorn" width="240" height="180" class="lisa-shape" style="--shape-fill: var(--fill-1)"/><rect x="50" y="72" width="120" height="54" class="safe" vector-effect="non-scaling-stroke"/></svg><div><div class="name" style="display: flex; gap: var(--space-4); align-items: baseline; flex-wrap: wrap"><strong style="font-size: 26px; font-weight: 900">Fat unicorn</strong><span class="lisa-label lisa-muted">Hero button · ≤ 14 chars</span></div><p>The mascot, and the one hero button. The label sits on the belly. Once per product: "Surprise me", "Start", "Let's go".</p><p class="note">Min 200 wide; smaller and the horn and legs blur into a blob. Never a small icon.</p></div></div>
+  </div>
+</section>
+
+<section id="components">
+  <div class="sec-head"><h2 class="lisa-h2">Components</h2><p>Real controls. Hover, press, Tab through them, click the toggles.</p></div>
+
+  <span class="lisa-label sub">Buttons · cloud pill for most actions, plain pill for dense UI, unicorn once</span>
+  <div class="row comp-row">
+    <button type="button" class="lisa-fat lisa-fat--cloud"><svg aria-hidden="true"><use href="#lisa-cloud" class="ring"/><use href="#lisa-cloud" class="fill"/></svg><span>Save binder</span></button>
+    <button type="button" class="lisa-fat lisa-fat--cloud lisa-fat--secondary"><svg aria-hidden="true"><use href="#lisa-cloud" class="ring"/><use href="#lisa-cloud" class="fill"/></svg><span>Preview</span></button>
+    <div class="row" style="gap: var(--space-3)">
+      <button type="button" class="lisa-btn lisa-btn--primary">Save</button>
+      <button type="button" class="lisa-btn">Cancel</button>
+      <button type="button" class="lisa-btn" disabled>Disabled</button>
+    </div>
+  </div>
+  <div class="row comp-row">
+    <button type="button" class="lisa-fat lisa-fat--unicorn" id="surprise" aria-label="Surprise me: pick a random subject"><svg aria-hidden="true"><use href="#lisa-unicorn" class="ring"/><use href="#lisa-unicorn" class="fill"/></svg><span>Surprise me</span></button>
+    <div class="stack" style="gap: var(--space-2); flex: 1 1 280px; font-size: var(--text-sm); min-width: 0">
+      <p style="margin: 0"><strong>States.</strong> Hover brightens the fill. Pressed drops --depth and shifts --press (3px). Focus draws a --ring that follows the outline. Disabled goes dashed and muted, with no depth.</p>
+      <p class="note">Cloud pills are fixed sizes in v0.1. Long or translated labels use the plain pill until the cloud can stretch.</p>
+    </div>
+  </div>
+
+  <div class="grid g-2" style="gap: var(--space-6)">
+    <div class="stack" style="gap: var(--space-3)">
+      <span class="lisa-label sub">Toggles · heart and star</span>
+      <div class="row" style="gap: var(--space-5)">
+        <button type="button" class="lisa-fat lisa-fat--heart" id="like" aria-pressed="false" aria-label="Like, 24 likes"><svg aria-hidden="true"><use href="#lisa-heart" class="ring"/><use href="#lisa-heart" class="fill"/></svg><span id="like-count">24</span></button>
+        <button type="button" class="lisa-fat lisa-fat--star" id="fav" aria-pressed="true" aria-label="Star this binder"><svg aria-hidden="true"><use href="#lisa-star" class="ring"/><use href="#lisa-star" class="fill"/></svg></button>
+      </div>
+    </div>
+    <div class="stack" style="gap: var(--space-3)">
+      <span class="lisa-label sub">Badges &amp; chips</span>
+      <div class="row" style="gap: var(--space-5)">
+        <div class="inbox"><svg aria-hidden="true" width="200" height="70" viewBox="0 0 240 84"><use href="#lisa-cloud" width="240" height="84" class="lisa-shape" style="--shape-fill: var(--bg)"/></svg><span>Inbox</span><svg class="badge" role="img" aria-label="12 unread" width="52" height="52" viewBox="0 0 100 100"><use href="#lisa-burst" width="100" height="100" class="lisa-shape" style="--shape-fill: var(--fill-2)"/><text x="50" y="62" text-anchor="middle" font-size="34" class="lisa-glyph">12</text></svg></div>
+        <div class="row" style="gap: var(--space-2)"><span class="lisa-chip lisa-chip--done">Done</span><span class="lisa-chip lisa-chip--draft">Draft</span><span class="lisa-chip lisa-chip--late">Late</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g-2" style="gap: var(--space-6)">
+    <div class="stack" style="gap: var(--space-3)">
+      <span class="lisa-label sub">Folder card · the house container</span>
+      <div class="lisa-folder">
+        <div class="lisa-folder__tabs" role="tablist" aria-label="Subjects">
+          <button type="button" class="lisa-folder__tab" role="tab" aria-selected="true">Science</button>
+          <button type="button" class="lisa-folder__tab" role="tab" aria-selected="false">Math</button>
+        </div>
+        <div class="lisa-folder__body stack" style="gap: var(--space-3)" role="tabpanel">
+          <div><h3 class="lisa-h3">Lab report</h3><span class="note">Due Friday · 3 pages</span></div>
+          <div class="lisa-field"><label for="binder-name">Binder name</label><input id="binder-name" class="lisa-input" value="Science, period 3"></div>
+          <label class="lisa-check"><input type="checkbox" id="remind" checked> Remind me the day before</label>
+        </div>
+      </div>
+    </div>
+    <div class="stack" style="gap: var(--space-3)">
+      <span class="lisa-label sub">Alerts · sticker card · avatars</span>
+      <div class="lisa-alert lisa-alert--notice" role="status">Heads up: 3 unsaved pages in this binder.</div>
+      <div class="lisa-alert lisa-alert--error">Couldn't sync. Check your connection and try again.</div>
+      <div class="lisa-card lisa-card--lifted sticker-card">
+        <svg class="corner lisa-tilt" role="img" aria-label="New" width="64" height="64" viewBox="0 0 100 100"><use href="#lisa-d-burst" class="lisa-shape" style="--shape-fill: var(--fill-4)"/><text x="50" y="58" text-anchor="middle" font-size="20" class="lisa-glyph" style="font-family: var(--font-display); font-weight: 400">NEW</text></svg>
+        <div class="avatar" role="img" aria-label="Avatar AB"><svg aria-hidden="true" width="56" height="56" viewBox="0 0 100 100"><use href="#lisa-sparkle" width="100" height="100" class="lisa-shape" style="--shape-fill: var(--fill-1)"/></svg><span>AB</span></div>
+        <div class="avatar" role="img" aria-label="Avatar JS"><svg aria-hidden="true" width="56" height="56" viewBox="0 0 100 100"><use href="#lisa-sparkle" width="100" height="100" class="lisa-shape" style="--shape-fill: var(--fill-5)"/></svg><span>JS</span></div>
+        <div class="avatar" role="img" aria-label="1 more person"><svg aria-hidden="true" width="56" height="56" viewBox="0 0 100 100"><use href="#lisa-sparkle" width="100" height="100" class="lisa-shape" style="--shape-fill: var(--fill-3)"/></svg><span>+1</span></div>
+        <strong style="font-size: var(--text-sm)">3 editing</strong>
+      </div>
+    </div>
+  </div>
+
+  <span class="lisa-label sub">Puffy tiles · pick one</span>
+  <div class="tiles" role="group" aria-label="Subject" id="tiles">
+    <button type="button" class="lisa-fat lisa-fat--tile" aria-pressed="true" data-tile="science" style="--shape-fill: var(--fill-4)"><svg aria-hidden="true"><use href="#lisa-tile" class="ring"/><use href="#lisa-tile" class="fill"/></svg><span class="lisa-fat__title">Science</span><span class="lisa-fat__meta">6 binders</span></button>
+    <button type="button" class="lisa-fat lisa-fat--tile" aria-pressed="false" data-tile="math" style="--shape-fill: var(--fill-3)"><svg aria-hidden="true"><use href="#lisa-tile" class="ring"/><use href="#lisa-tile" class="fill"/></svg><span class="lisa-fat__title">Math</span><span class="lisa-fat__meta">4 binders</span></button>
+    <button type="button" class="lisa-fat lisa-fat--tile" aria-pressed="false" data-tile="art" style="--shape-fill: var(--fill-1)"><svg aria-hidden="true"><use href="#lisa-tile" class="ring"/><use href="#lisa-tile" class="fill"/></svg><span class="lisa-fat__title">Art</span><span class="lisa-fat__meta">9 binders</span></button>
+    <button type="button" class="lisa-fat lisa-fat--tile" aria-pressed="false" data-tile="music" style="--shape-fill: var(--fill-5)"><svg aria-hidden="true"><use href="#lisa-tile" class="ring"/><use href="#lisa-tile" class="fill"/></svg><span class="lisa-fat__title">Music</span><span class="lisa-fat__meta">2 binders</span></button>
+  </div>
+
+  <span class="lisa-label sub">Empty state · where the big shapes earn their keep</span>
+  <div class="empty">
+    <svg role="img" aria-label="Unicorn" width="180" height="135" viewBox="0 0 240 180" class="lisa-lift lisa-tilt" style="overflow: visible; flex-shrink: 0"><use href="#lisa-unicorn" width="240" height="180" class="lisa-shape" style="--shape-fill: var(--fill-5)"/></svg>
+    <div><span class="lisa-h2">No binders yet</span><p>Start one and it shows up here.</p><button type="button" class="lisa-btn lisa-btn--primary">New binder</button></div>
+  </div>
+</section>
+
+<section id="prose">
+  <div class="sec-head"><h2 class="lisa-h2">Prose</h2><p>Plain HTML inside .lisa-prose. Links are --accent-text; code is a dark well.</p></div>
+  <div class="grid g-2" style="gap: var(--space-6)">
+    <div class="lisa-prose">
+      <h3>Keep the loud stuff in its lane</h3>
+      <p>Colour carries <strong>state</strong>, never meaning on its own. Read the <a href="#principles">principles</a> before adding a seventh neon, and <mark>highlight one phrase</mark> per block at most.</p>
+      <ul><li>Spectrum slabs top and bottom only</li><li>One neon fill per component</li><li>One tilt per view</li></ul>
+      <blockquote>The rainbow is the border. Ink does the talking.</blockquote>
+    </div>
+    <pre class="lisa-code">.button {
+  background: var(--fill-1);
+  color: var(--on-fill);
+  border: var(--rule) solid var(--border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--depth-sm);
+}</pre>
+  </div>
+</section>
+
+<section id="use">
+  <div class="sec-head"><h2 class="lisa-h2">Use it</h2><p>Four files. Link the stylesheet and the fonts, add class="lisa", and opt components in.</p></div>
+  <div class="table-box">
+    <table class="files">
+      <thead><tr><th scope="col" class="lisa-label">File</th><th scope="col" class="lisa-label">What it is</th></tr></thead>
+      <tbody>
+        <tr><td><a href="index.html">index.html</a></td><td>This page. Every token and component, live, in both modes.</td></tr>
+        <tr><td><a href="README.md">README.md</a></td><td>The rules and why they exist. Read it before designing anything new.</td></tr>
+        <tr><td><a href="lisa.css">lisa.css</a></td><td>Drop-in stylesheet: tokens for Day and Dusk, .lisa-* components, prose, print. Inert until an element opts in.</td></tr>
+        <tr><td><a href="tokens.json">tokens.json</a></td><td>The same tokens in the Design Tokens Community Group format, for design tools.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <pre class="lisa-code">&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&amp;family=Nunito:wght@400;700;900&amp;family=Space+Mono:wght@400;700&amp;display=swap"&gt;
+&lt;link rel="stylesheet" href="lisa.css"&gt;
+
+&lt;body class="lisa"&gt;            &lt;!-- Day, or Dusk when the OS is dark --&gt;
+&lt;html data-theme="dusk"&gt;      &lt;!-- force a mode: "day" or "dusk" --&gt;
+
+&lt;button class="lisa-btn lisa-btn--primary"&gt;Save&lt;/button&gt;
+&lt;div class="lisa-alert lisa-alert--notice" role="status"&gt;Saved.&lt;/div&gt;</pre>
+</section>
+
+<section id="mark">
+  <div class="sec-head"><h2 class="lisa-h2">Mark &amp; print</h2><p>The wordmark, the icon, and what survives paper.</p></div>
+  <div class="row mark">
+    <div class="wordmark"><span>Lisa</span><div class="lisa-slab" style="border-radius: 4px"></div></div>
+    <div class="icons">
+      <div class="icon-tile" role="img" aria-label="App icon at 128 pixels" style="width: 128px; height: 128px; border-radius: 28px; box-shadow: var(--depth-sm)"><svg aria-hidden="true" width="104" height="78" viewBox="0 0 240 180"><use href="#lisa-unicorn" width="240" height="180" style="fill: var(--on-fill)"/></svg></div>
+      <div class="icon-tile" role="img" aria-label="App icon at 64 pixels" style="width: 64px; height: 64px; border-radius: 16px"><svg aria-hidden="true" width="50" height="38" viewBox="0 0 240 180"><use href="#lisa-unicorn" width="240" height="180" style="fill: var(--on-fill)"/></svg></div>
+      <div class="icon-tile" role="img" aria-label="Favicon at 32 pixels" style="width: 32px; height: 32px; border-radius: 8px; border-width: 2px; background: var(--fill-1)"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 100 100"><use href="#lisa-d-sparkle" width="100" height="100" style="fill: var(--on-fill)"/></svg></div>
+    </div>
+  </div>
+  <p class="note">The unicorn icon holds at 64px and up. At 32px it turns into a blob, so the favicon uses the sparkle.</p>
+  <div class="lisa-card" style="background: var(--bg)"><span class="lisa-label" style="font-weight: 700">Print</span><p style="margin: var(--space-2) 0 0; font-size: var(--text-sm)">Always prints in Day. White ground; glows and the airbrush sky drop out. Fills stay under ink. The spectrum slab prints as a solid ink bar, and every shape keeps its 3px outline, so nothing depends on colour.</p></div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Lisa v0.1 · Day and Dusk. Fonts: Bungee, Nunito and Space Mono, under the SIL Open Font License.</span>
+    <a href="https://www.billyhunt.com/" class="lisa-label">Billy Hunt</a>
+  </div>
+</footer>
+<div class="lisa-slab" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var modeButtons = document.querySelectorAll('.switch button');
+  function setMode(mode) {
+    if (mode === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', mode);
+    modeButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.mode === mode)); });
+    try { if (mode === 'auto') localStorage.removeItem('lisa-theme'); else localStorage.setItem('lisa-theme', mode); } catch (e) {}
+  }
+  modeButtons.forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
+  setMode(root.getAttribute('data-theme') || 'auto');
+
+  var like = document.getElementById('like');
+  var count = document.getElementById('like-count');
+  like.addEventListener('click', function () {
+    var on = like.getAttribute('aria-pressed') !== 'true';
+    like.setAttribute('aria-pressed', String(on));
+    count.textContent = on ? '25' : '24';
+    like.setAttribute('aria-label', on ? 'Liked, 25 likes' : 'Like, 24 likes');
+  });
+
+  var fav = document.getElementById('fav');
+  fav.addEventListener('click', function () {
+    fav.setAttribute('aria-pressed', String(fav.getAttribute('aria-pressed') !== 'true'));
+  });
+
+  var tiles = Array.prototype.slice.call(document.querySelectorAll('#tiles .lisa-fat'));
+  function pick(tile) { tiles.forEach(function (t) { t.setAttribute('aria-pressed', String(t === tile)); }); }
+  tiles.forEach(function (t) { t.addEventListener('click', function () { pick(t); }); });
+  document.getElementById('surprise').addEventListener('click', function () {
+    var others = tiles.filter(function (t) { return t.getAttribute('aria-pressed') !== 'true'; });
+    pick(others[Math.floor(Math.random() * others.length)]);
+  });
+
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.lisa-folder__tab'));
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { tabs.forEach(function (t) { t.setAttribute('aria-selected', String(t === tab)); }); });
+  });
+})();
+</script>
+</body>
+</html>

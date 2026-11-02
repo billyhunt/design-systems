@@ -1,0 +1,306 @@
+/*
+ * Lisa v0.1 — drop-in stylesheet.
+ *
+ * Neon fills under ink, 3px edges, shadows by day and glow by night.
+ * Tokens live on :root. Day is the default; Dusk applies when the OS is in
+ * dark mode (unless the page sets data-theme="day"), or whenever the root
+ * element has data-theme="dusk".
+ *
+ * Nothing here styles bare elements. Opt in with class="lisa" on a wrapper
+ * (usually <body>) and the .lisa-* component classes below.
+ *
+ * Fonts: load Bungee, Nunito (400/700/900) and Space Mono (400/700) yourself,
+ * e.g. from Google Fonts. See README.md.
+ */
+
+/* ------------------------------------------------------------------ tokens */
+
+:root {
+  /* colour · Day */
+  --bg: #FFFFFF;
+  --surface: #F6F1FF;
+  --text: #14001F;
+  --text-muted: #5B4A66;
+  --border: #14001F;
+  --accent-text: #B5006A;
+  --on-fill: #14001F;
+  --on-fill-6: #FFFFFF;
+  --ring: #8A2BFF;
+  --fill-1: #FF2DA0;
+  --fill-2: #FF8A00;
+  --fill-3: #FFE600;
+  --fill-4: #39E61A;
+  --fill-5: #00D4FF;
+  --fill-6: #8A2BFF;
+  --code-bg: #14001F;
+  --code-text: #FFE600;
+  --spectrum: linear-gradient(90deg, var(--fill-1), var(--fill-2), var(--fill-3), var(--fill-4), var(--fill-5), var(--fill-6));
+  --sky: var(--bg);
+
+  /* depth · Day: hard ink shadows */
+  --depth: 6px 6px 0 var(--border);
+  --depth-sm: 4px 4px 0 var(--border);
+  --depth-shape: drop-shadow(4px 4px 0 var(--border));
+
+  /* type */
+  --font-display: 'Bungee', 'Arial Black', Impact, sans-serif;
+  --font-body: 'Nunito', ui-rounded, 'SF Pro Rounded', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, Menlo, Consolas, monospace;
+  --text-label: 12px;
+  --text-sm: 15px;
+  --text-body: 17px;
+  --text-h3: 22px;
+  --text-h2: 30px;
+  --text-h1: 48px;
+  --text-display: 88px;
+  --leading: 1.6;
+
+  /* space · 4px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* shape + motion */
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-pill: 999px;
+  --rule: 3px;
+  --rule-heavy: 6px;
+  --slab: 16px;
+  --tilt: -6deg;
+  --press: 3px;
+  --dur: 120ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="day"]) {
+    --bg: #160B2B;
+    --surface: #24123F;
+    --text: #F6EEFF;
+    --text-muted: #B9A6D6;
+    --border: #B9A6D6;
+    --accent-text: #FF4FD8;
+    --on-fill: #160B2B;
+    --on-fill-6: #160B2B;
+    --ring: #F6EEFF;
+    --fill-1: #FF4FD8;
+    --fill-2: #FF9F45;
+    --fill-3: #FFE600;
+    --fill-4: #39E61A;
+    --fill-5: #3DE8FF;
+    --fill-6: #9B5CFF;
+    --code-bg: #0E061D;
+    --sky: radial-gradient(560px 280px at 85% 30%, rgb(255 79 216 / .45), transparent 70%), radial-gradient(460px 240px at 60% 100%, rgb(61 232 255 / .3), transparent 70%), var(--bg);
+    --depth: 0 0 28px rgb(255 79 216 / .55);
+    --depth-sm: 0 0 18px rgb(255 79 216 / .45);
+    --depth-shape: drop-shadow(0 0 12px rgb(255 79 216 / .55));
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dusk"] {
+  --bg: #160B2B;
+  --surface: #24123F;
+  --text: #F6EEFF;
+  --text-muted: #B9A6D6;
+  --border: #B9A6D6;
+  --accent-text: #FF4FD8;
+  --on-fill: #160B2B;
+  --on-fill-6: #160B2B;
+  --ring: #F6EEFF;
+  --fill-1: #FF4FD8;
+  --fill-2: #FF9F45;
+  --fill-3: #FFE600;
+  --fill-4: #39E61A;
+  --fill-5: #3DE8FF;
+  --fill-6: #9B5CFF;
+  --code-bg: #0E061D;
+  --sky: radial-gradient(560px 280px at 85% 30%, rgb(255 79 216 / .45), transparent 70%), radial-gradient(460px 240px at 60% 100%, rgb(61 232 255 / .3), transparent 70%), var(--bg);
+  --depth: 0 0 28px rgb(255 79 216 / .55);
+  --depth-sm: 0 0 18px rgb(255 79 216 / .45);
+  --depth-shape: drop-shadow(0 0 12px rgb(255 79 216 / .55));
+  color-scheme: dark;
+}
+
+/* -------------------------------------------------------------------- base */
+
+.lisa {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading);
+}
+.lisa a { color: var(--accent-text); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.lisa a:hover { color: var(--text); }
+.lisa :focus-visible { outline: var(--rule) solid var(--ring); outline-offset: 3px; }
+
+.lisa-display { font-family: var(--font-display); font-weight: 400; font-size: var(--text-display); line-height: .9; margin: 0; text-transform: uppercase; }
+.lisa-h1 { font-family: var(--font-display); font-weight: 400; font-size: var(--text-h1); line-height: 1.05; margin: 0; text-transform: uppercase; text-wrap: balance; }
+.lisa-h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--text-h2); line-height: 1.1; margin: 0; text-transform: uppercase; text-wrap: balance; }
+.lisa-h3 { font-weight: 900; font-size: var(--text-h3); line-height: 1.25; margin: 0; text-wrap: balance; }
+.lisa-label { font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: .08em; text-transform: uppercase; }
+.lisa-muted { color: var(--text-muted); }
+
+.lisa-slab { height: var(--slab); background: var(--spectrum); }
+.lisa-rule { border: 0; height: var(--rule); background: var(--border); margin: 0; }
+
+/* ------------------------------------------------------------- containers */
+
+.lisa-card {
+  background: var(--surface);
+  border: var(--rule) solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+}
+.lisa-card--lifted { box-shadow: var(--depth-sm); }
+
+/* Folder card: the house container. Tabs sit on the top edge. */
+.lisa-folder { display: flex; flex-direction: column; }
+.lisa-folder__tabs { display: flex; gap: var(--space-1); position: relative; z-index: 1; margin-bottom: calc(var(--rule) * -1); flex-wrap: wrap; }
+.lisa-folder__tab {
+  font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: .08em; text-transform: uppercase; font-weight: 700;
+  background: var(--bg); color: var(--text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius) var(--radius) 0 0;
+  padding: var(--space-2) var(--space-4); cursor: pointer;
+}
+.lisa-folder__tab[aria-selected="true"] { background: var(--fill-3); color: var(--on-fill); border-bottom-color: var(--fill-3); }
+.lisa-folder__body {
+  background: var(--surface);
+  border: var(--rule) solid var(--border);
+  border-radius: 0 var(--radius) var(--radius) var(--radius);
+  padding: var(--space-5);
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+/* Plain pill: dense UI, long or translated labels. */
+.lisa-btn {
+  font-family: var(--font-body); font-weight: 900; font-size: var(--text-body); line-height: 1.2;
+  background: var(--bg); color: var(--text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius-pill);
+  padding: var(--space-3) var(--space-5); min-height: 48px;
+  cursor: pointer; transition: transform var(--dur);
+}
+.lisa-btn--primary { background: var(--fill-1); color: var(--on-fill); box-shadow: var(--depth-sm); }
+.lisa-btn:hover { filter: brightness(1.06); }
+.lisa-btn:active { transform: translate(var(--press), var(--press)); box-shadow: none; }
+.lisa-btn:disabled, .lisa-btn[aria-disabled="true"] {
+  background: var(--surface); color: var(--text-muted);
+  border-style: dashed; border-color: var(--text-muted);
+  box-shadow: none; filter: none; transform: none; cursor: not-allowed;
+}
+
+/* Fat shapes as controls. The SVG draws the shape; the <span> is the label.
+   Put two <use> elements in the SVG: .ring (focus) then .fill. */
+.lisa-fat {
+  position: relative; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  border: 0; background: none; padding: 0; flex-shrink: 0;
+  font-family: var(--font-body); font-weight: 900; font-size: 19px; color: var(--on-fill);
+  cursor: pointer; transition: transform var(--dur);
+}
+.lisa-fat > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: var(--depth-shape); }
+.lisa-fat > span { position: relative; }
+.lisa-fat .ring { fill: none; stroke: transparent; stroke-width: 14px; stroke-linejoin: round; }
+.lisa-fat .fill { fill: var(--shape-fill, var(--fill-1)); stroke: var(--border); stroke-width: var(--rule); stroke-linejoin: round; }
+.lisa-fat:hover .fill { filter: brightness(1.07) saturate(1.1); }
+.lisa-fat:active { transform: translate(var(--press), var(--press)); }
+.lisa-fat:active > svg { filter: none; }
+.lisa .lisa-fat:focus-visible { outline: none; }
+.lisa-fat:focus-visible .ring { stroke: var(--ring); }
+
+/* Secondary and "off" states: paper fill, no depth. */
+.lisa-fat--secondary, .lisa-fat[aria-pressed="false"] { color: var(--text); }
+.lisa-fat--secondary .fill, .lisa-fat[aria-pressed="false"] .fill { fill: var(--bg); }
+.lisa-fat--secondary > svg, .lisa-fat[aria-pressed="false"] > svg { filter: none; }
+
+/* Sizes. Labels sit inside each shape's safe area. */
+.lisa-fat--cloud { width: 240px; height: 84px; }
+.lisa-fat--heart { width: 120px; height: 100px; font-size: 22px; }
+.lisa-fat--heart > span { margin-top: -10px; }
+.lisa-fat--star { width: 80px; height: 80px; --shape-fill: var(--fill-3); }
+.lisa-fat--tile { width: 200px; height: 170px; }
+.lisa-fat--tile[aria-pressed="true"] { transform: translate(-3px, -3px); }
+.lisa-fat--tile[aria-pressed="true"] .fill { stroke-width: 5px; }
+.lisa-fat--tile .lisa-fat__title { font-family: var(--font-display); font-weight: 400; font-size: 24px; }
+.lisa-fat--tile .lisa-fat__meta { font-size: var(--text-sm); font-weight: 700; }
+.lisa-fat--unicorn { width: 264px; height: 198px; }
+.lisa-fat--unicorn > span { position: absolute; left: 20.8%; top: 40%; width: 50%; height: 30%; display: flex; align-items: center; justify-content: center; }
+
+/* -------------------------------------------------------- chips, alerts */
+
+.lisa-chip {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: .08em; text-transform: uppercase; font-weight: 700;
+  background: var(--bg); color: var(--text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius-pill);
+  padding: var(--space-1) var(--space-3);
+}
+.lisa-chip--done { background: var(--fill-4); color: var(--on-fill); }
+.lisa-chip--draft { background: var(--fill-5); color: var(--on-fill); }
+.lisa-chip--late { background: var(--fill-2); color: var(--on-fill); }
+
+.lisa-alert {
+  border: var(--rule) solid var(--border); border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4); font-weight: 700; color: var(--on-fill);
+}
+.lisa-alert--notice { background: var(--fill-3); }
+.lisa-alert--error { background: var(--fill-1); }
+.lisa-alert--success { background: var(--fill-4); }
+
+/* Shapes used as decoration, badges and avatars. */
+.lisa-shape { fill: var(--shape-fill, var(--fill-1)); stroke: var(--border); stroke-width: var(--rule); stroke-linejoin: round; }
+.lisa-glyph { fill: var(--on-fill); font-family: var(--font-body); font-weight: 900; }
+.lisa-lift { filter: var(--depth-shape); }
+.lisa-tilt { transform: rotate(var(--tilt)); }
+
+/* ------------------------------------------------------------------ forms */
+
+.lisa-field { display: flex; flex-direction: column; gap: var(--space-2); }
+.lisa-field > label { font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+.lisa-input {
+  font: inherit; font-family: var(--font-body);
+  background: var(--bg); color: var(--text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3); min-height: 44px;
+}
+.lisa-check { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); }
+.lisa-check input { width: 22px; height: 22px; accent-color: var(--fill-1); }
+
+/* ------------------------------------------------------------------ prose */
+
+.lisa-prose > * + * { margin-top: var(--space-3); }
+.lisa-prose h1, .lisa-prose h2 { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; line-height: 1.1; }
+.lisa-prose h3 { font-weight: 900; font-size: var(--text-h3); }
+.lisa-prose ul, .lisa-prose ol { padding-left: var(--space-5); }
+.lisa-prose blockquote { margin: 0; border-left: var(--rule-heavy) solid var(--fill-1); background: var(--surface); padding: var(--space-2) var(--space-4); font-weight: 700; }
+.lisa-prose mark { background: var(--fill-3); color: var(--on-fill); padding: 0 var(--space-1); }
+.lisa-code, .lisa-prose pre {
+  background: var(--code-bg); color: var(--code-text);
+  border: var(--rule) solid var(--border); border-radius: var(--radius);
+  padding: var(--space-5); font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+  overflow-x: auto; margin: 0;
+}
+
+/* ------------------------------------------------------- motion + print */
+
+@media (prefers-reduced-motion: reduce) {
+  .lisa-btn, .lisa-fat { transition: none; }
+}
+
+@media print {
+  :root, :root:not([data-theme="day"]), :root[data-theme="dusk"] {
+    --bg: #FFFFFF; --surface: #FFFFFF; --text: #14001F; --text-muted: #5B4A66; --border: #14001F;
+    --accent-text: #14001F; --on-fill: #14001F; --sky: #FFFFFF;
+    --depth: none; --depth-sm: none; --depth-shape: none;
+    color-scheme: light;
+  }
+  .lisa-slab { background: var(--border); height: var(--rule-heavy); }
+}
