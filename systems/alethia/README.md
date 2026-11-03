@@ -9,7 +9,7 @@ the editor. Every value here comes from the app's own stylesheets, in the
 further than the app, it says so (§12). Where the two disagree, the app wins
 and this guide is wrong: fix the guide.
 
-Published at <https://www.billyhunt.com/alethia-style-guide/>. This is a copy of
+Published at <https://www.billyhunt.com/design-systems/alethia/>. This is a copy of
 the guide as it stood at app commit `a3e01ca` (pull request 58), plus the
 corner rules from app pull request 59.
 
